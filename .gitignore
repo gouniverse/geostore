@@ -19,3 +19,6 @@
 
 # Go workspace file
 go.work
+
+# Any DB files (used for testing)
+*.db
