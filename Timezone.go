@@ -39,7 +39,7 @@ func NewTimezoneFromExistingData(data map[string]string) *Timezone {
 // == SETTERS AND GETTERS ===================================================
 
 func (o *Timezone) CreatedAt() string {
-	return o.Get("created_at")
+	return o.Get(COLUMN_CREATED_AT)
 }
 
 func (o *Timezone) CreatedAtCarbon() carbon.Carbon {
@@ -47,66 +47,66 @@ func (o *Timezone) CreatedAtCarbon() carbon.Carbon {
 }
 
 func (o *Timezone) SetCreatedAt(createdAt string) *Timezone {
-	o.Set("created_at", createdAt)
+	o.Set(COLUMN_CREATED_AT, createdAt)
 	return o
 }
 
 func (o *Timezone) CountryCode() string {
-	return o.Get("country_code")
+	return o.Get(COLUMN_COUNTRY_CODE)
 }
 
 func (o *Timezone) SetCountryCode(countryCode string) *Timezone {
-	o.Set("country_code", countryCode)
+	o.Set(COLUMN_COUNTRY_CODE, countryCode)
 	return o
 }
 
 func (o *Timezone) DeletedAt() string {
-	return o.Get("deleted_at")
+	return o.Get(COLUMN_DELETED_AT)
 }
 
 func (o *Timezone) SetDeletedAt(deletedAt string) *Timezone {
-	o.Set("deleted_at", deletedAt)
+	o.Set(COLUMN_DELETED_AT, deletedAt)
 	return o
 }
 
 func (o *Timezone) GlobalName() string {
-	return o.Get("global_name")
+	return o.Get(COLUMN_GLOBAL_NAME)
 }
 
 func (o *Timezone) SetGlobalName(globalName string) *Timezone {
-	o.Set("global_name", globalName)
+	o.Set(COLUMN_GLOBAL_NAME, globalName)
 	return o
 }
 
 func (o *Timezone) Offset() string {
-	return o.Get("offset")
+	return o.Get(COLUMN_OFFSET)
 }
 
 func (o *Timezone) SetOffset(offset string) *Timezone {
-	o.Set("offset", offset)
+	o.Set(COLUMN_OFFSET, offset)
 	return o
 }
 
 func (o *Timezone) Status() string {
-	return o.Get("status")
+	return o.Get(COLUMN_STATUS)
 }
 
 func (o *Timezone) SetStatus(status string) *Timezone {
-	o.Set("status", status)
+	o.Set(COLUMN_STATUS, status)
 	return o
 }
 
 func (o *Timezone) Timezone() string {
-	return o.Get("timezone")
+	return o.Get(COLUMN_TIMEZONE)
 }
 
 func (o *Timezone) SetTimezone(timezone string) *Timezone {
-	o.Set("timezone", timezone)
+	o.Set(COLUMN_TIMEZONE, timezone)
 	return o
 }
 
 func (o *Timezone) UpdatedAt() string {
-	return o.Get("updated_at")
+	return o.Get(COLUMN_UPDATED_AT)
 }
 
 func (o *Timezone) UpdatedAtCarbon() carbon.Carbon {
@@ -114,15 +114,15 @@ func (o *Timezone) UpdatedAtCarbon() carbon.Carbon {
 }
 
 func (o *Timezone) SetUpdatedAt(updatedAt string) *Timezone {
-	o.Set("updated_at", updatedAt)
+	o.Set(COLUMN_UPDATED_AT, updatedAt)
 	return o
 }
 
 func (o *Timezone) ZoneName() string {
-	return o.Get("zone_name")
+	return o.Get(COLUMN_ZONE_NAME)
 }
 
 func (o *Timezone) SetZoneName(zoneName string) *Timezone {
-	o.Set("zone_name", zoneName)
+	o.Set(COLUMN_ZONE_NAME, zoneName)
 	return o
 }

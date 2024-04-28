@@ -39,82 +39,82 @@ func NewCountryFromExistingData(data map[string]string) *Country {
 // == SETTERS AND GETTERS ===================================================
 
 func (o *Country) Continent() string {
-	return o.Get("continent")
+	return o.Get(COLUMN_CONTINENT)
 }
 
 func (o *Country) SetContinent(continent string) *Country {
-	o.Set("continent", continent)
+	o.Set(COLUMN_CONTINENT, continent)
 	return o
 }
 
 func (o *Country) CreatedAt() string {
-	return o.Get("created_at")
+	return o.Get(COLUMN_CREATED_AT)
 }
 
 func (o *Country) SetCreatedAt(createdAt string) *Country {
-	o.Set("created_at", createdAt)
+	o.Set(COLUMN_CREATED_AT, createdAt)
 	return o
 }
 
 func (o *Country) DeletedAt() string {
-	return o.Get("deleted_at")
+	return o.Get(COLUMN_DELETED_AT)
 }
 
 func (o *Country) SetDeletedAt(deletedAt string) *Country {
-	o.Set("deleted_at", deletedAt)
+	o.Set(COLUMN_DELETED_AT, deletedAt)
 	return o
 }
 
 func (o *Country) IsoCode2() string {
-	return o.Get("iso2_code")
+	return o.Get(COLUMN_ISO2_CODE)
 }
 
 func (o *Country) SetIsoCode2(isoCode2 string) *Country {
-	o.Set("iso2_code", isoCode2)
+	o.Set(COLUMN_ISO2_CODE, isoCode2)
 	return o
 }
 
 func (o *Country) IsoCode3() string {
-	return o.Get("iso3_code")
+	return o.Get(COLUMN_ISO3_CODE)
 }
 
 func (o *Country) SetIsoCode3(isoCode3 string) *Country {
-	o.Set("iso3_code", isoCode3)
+	o.Set(COLUMN_ISO3_CODE, isoCode3)
 	return o
 }
 
 func (o *Country) Name() string {
-	return o.Get("name")
+	return o.Get(COLUMN_NAME)
 }
 
 func (o *Country) SetName(name string) *Country {
-	o.Set("name", name)
+	o.Set(COLUMN_NAME, name)
 	return o
 }
 
 func (o *Country) PhonePrefix() string {
-	return o.Get("phone_prefix")
+	return o.Get(COLUMN_PHONE_PREFIX)
 }
 
 func (o *Country) SetPhonePrefix(phonePrefix string) *Country {
-	o.Set("phone_prefix", phonePrefix)
+	o.Set(COLUMN_PHONE_PREFIX, phonePrefix)
 	return o
 }
 
 func (o *Country) Status() string {
-	return o.Get("status")
+	return o.Get(COLUMN_STATUS)
 }
 
 func (o *Country) SetStatus(status string) *Country {
-	o.Set("status", status)
+	o.Set(COLUMN_STATUS, status)
 	return o
 }
 
 func (o *Country) UpdatedAt() string {
-	return o.Get("updated_at")
+	return o.Get(COLUMN_UPDATED_AT)
 }
 
 func (o *Country) SetUpdatedAt(updatedAt string) *Country {
-	o.Set("updated_at", updatedAt)
+	o.Set(COLUMN_UPDATED_AT, updatedAt)
 	return o
 }

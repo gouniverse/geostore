@@ -7,51 +7,51 @@ func (st *Store) sqlCountryTableCreate() string {
 	sql := sb.NewBuilder(st.dbDriverName).
 		Table(st.countryTableName).
 		Column(sb.Column{
-			Name:       "id",
+			Name:       COLUMN_ID,
 			Type:       sb.COLUMN_TYPE_STRING,
 			Length:     40,
 			PrimaryKey: true,
 		}).
 		Column(sb.Column{
-			Name:   "status",
+			Name:   COLUMN_STATUS,
 			Type:   sb.COLUMN_TYPE_STRING,
 			Length: 20,
 		}).
 		Column(sb.Column{
-			Name:   "iso2_code",
+			Name:   COLUMN_ISO2_CODE,
 			Type:   sb.COLUMN_TYPE_STRING,
 			Length: 2,
 		}).
 		Column(sb.Column{
-			Name:   "iso3_code",
+			Name:   COLUMN_ISO3_CODE,
 			Type:   sb.COLUMN_TYPE_STRING,
 			Length: 3,
 		}).
 		Column(sb.Column{
-			Name:   "name",
+			Name:   COLUMN_NAME,
 			Type:   sb.COLUMN_TYPE_STRING,
 			Length: 255,
 		}).
 		Column(sb.Column{
-			Name:   "continent",
+			Name:   COLUMN_CONTINENT,
 			Type:   sb.COLUMN_TYPE_STRING,
 			Length: 100,
 		}).
 		Column(sb.Column{
-			Name:   "phone_prefix",
+			Name:   COLUMN_PHONE_PREFIX,
 			Type:   sb.COLUMN_TYPE_STRING,
 			Length: 20,
 		}).
 		Column(sb.Column{
-			Name: "created_at",
+			Name: COLUMN_CREATED_AT,
 			Type: sb.COLUMN_TYPE_DATETIME,
 		}).
 		Column(sb.Column{
-			Name: "updated_at",
+			Name: COLUMN_UPDATED_AT,
 			Type: sb.COLUMN_TYPE_DATETIME,
 		}).
 		Column(sb.Column{
-			Name: "deleted_at",
+			Name: COLUMN_DELETED_AT,
 			Type: sb.COLUMN_TYPE_DATETIME,
 		}).
 		CreateIfNotExists()
@@ -63,51 +63,51 @@ func (st *Store) sqlTimezoneTableCreate() string {
 	sql := sb.NewBuilder(st.dbDriverName).
 		Table(st.timezoneTableName).
 		Column(sb.Column{
-			Name:       "id",
+			Name:       COLUMN_ID,
 			Type:       sb.COLUMN_TYPE_STRING,
 			Length:     40,
 			PrimaryKey: true,
 		}).
 		Column(sb.Column{
-			Name:   "status",
+			Name:   COLUMN_STATUS,
 			Type:   sb.COLUMN_TYPE_STRING,
 			Length: 20,
 		}).
 		Column(sb.Column{
-			Name:   "timezone",
+			Name:   COLUMN_TIMEZONE,
 			Type:   sb.COLUMN_TYPE_STRING,
 			Length: 100,
 		}).
 		Column(sb.Column{
-			Name:   "zone_name",
+			Name:   COLUMN_ZONE_NAME,
 			Type:   sb.COLUMN_TYPE_STRING,
 			Length: 100,
 		}).
 		Column(sb.Column{
-			Name:   "global_name",
+			Name:   COLUMN_GLOBAL_NAME,
 			Type:   sb.COLUMN_TYPE_STRING,
 			Length: 100,
 		}).
 		Column(sb.Column{
-			Name:   "country_code",
+			Name:   COLUMN_COUNTRY_CODE,
 			Type:   sb.COLUMN_TYPE_STRING,
 			Length: 50,
 		}).
 		Column(sb.Column{
-			Name:   "offset",
+			Name:   COLUMN_OFFSET,
 			Type:   sb.COLUMN_TYPE_STRING,
 			Length: 50,
 		}).
 		Column(sb.Column{
-			Name: "created_at",
+			Name: COLUMN_CREATED_AT,
 			Type: sb.COLUMN_TYPE_DATETIME,
 		}).
 		Column(sb.Column{
-			Name: "updated_at",
+			Name: COLUMN_UPDATED_AT,
 			Type: sb.COLUMN_TYPE_DATETIME,
 		}).
 		Column(sb.Column{
-			Name: "deleted_at",
+			Name: COLUMN_DELETED_AT,
 			Type: sb.COLUMN_TYPE_DATETIME,
 		}).
 		CreateIfNotExists()

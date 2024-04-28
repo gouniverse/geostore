@@ -155,7 +155,7 @@ func (store *Store) CountryDeleteByID(id string) error {
 	sqlStr, params, errSql := goqu.Dialect(store.dbDriverName).
 		Delete(store.countryTableName).
 		Prepared(true).
-		Where(goqu.C("id").Eq(id)).
+		Where(goqu.C(COLUMN_ID).Eq(id)).
 		ToSQL()
 
 	if errSql != nil {
@@ -265,16 +265,16 @@ func (store *Store) CountrySoftDeleteByID(id string) error {
 
 func (store *Store) CountryUpdate(country *Country) error {
 	if country == nil {
-		return errors.New("order is nil")
+		return errors.New("country is nil")
 	}
 
 	// country.SetUpdatedAt(carbon.Now(carbon.UTC).ToDateTimeString())
 
 	dataChanged := country.DataChanged()
 
-	delete(dataChanged, "id")   // ID is not updatable
-	delete(dataChanged, "hash") // Hash is not updatable
-	delete(dataChanged, "data") // Data is not updatable
+	delete(dataChanged, COLUMN_ID) // ID is not updatable
+	delete(dataChanged, "hash")    // Hash is not updatable
+	delete(dataChanged, "data")    // Data is not updatable
 
 	if len(dataChanged) < 1 {
 		return nil
@@ -284,7 +284,7 @@ func (store *Store) CountryUpdate(country *Country) error {
 		Update(store.countryTableName).
 		Prepared(true).
 		Set(dataChanged).
-		Where(goqu.C("id").Eq(country.ID())).
+		Where(goqu.C(COLUMN_ID).Eq(country.ID())).
 		ToSQL()
 
 	if errSql != nil {
@@ -306,23 +306,23 @@ func (store *Store) countryQuery(options CountryQueryOptions) *goqu.SelectDatase
 	q := goqu.Dialect(store.dbDriverName).From(store.countryTableName)
 
 	if options.ID != "" {
-		q = q.Where(goqu.C("id").Eq(options.ID))
+		q = q.Where(goqu.C(COLUMN_ID).Eq(options.ID))
 	}
 
 	if options.Status != "" {
-		q = q.Where(goqu.C("status").Eq(options.Status))
+		q = q.Where(goqu.C(COLUMN_STATUS).Eq(options.Status))
 	}
 
 	if len(options.StatusIn) > 0 {
-		q = q.Where(goqu.C("status").In(options.StatusIn))
+		q = q.Where(goqu.C(COLUMN_STATUS).In(options.StatusIn))
 	}
 
 	if options.Iso2 != "" {
-		q = q.Where(goqu.C("iso2").Eq(options.Iso2))
+		q = q.Where(goqu.C(COLUMN_ISO2_CODE).Eq(options.Iso2))
 	}
 
 	if options.Iso3 != "" {
-		q = q.Where(goqu.C("iso3").Eq(options.Iso3))
+		q = q.Where(goqu.C(COLUMN_ISO3_CODE).Eq(options.Iso3))
 	}
 
 	if !options.CountOnly {
@@ -349,7 +349,7 @@ func (store *Store) countryQuery(options CountryQueryOptions) *goqu.SelectDatase
 	}
 
 	if !options.WithDeleted {
-		q = q.Where(goqu.C("deleted_at").Eq(sb.NULL_DATETIME))
+		q = q.Where(goqu.C(COLUMN_DELETED_AT).Eq(sb.NULL_DATETIME))
 	}
 
 	return q
@@ -388,23 +388,23 @@ func (store *Store) timezoneQuery(options TimezoneQueryOptions) *goqu.SelectData
 	q := goqu.Dialect(store.dbDriverName).From(store.timezoneTableName)
 
 	if options.ID != "" {
-		q = q.Where(goqu.C("id").Eq(options.ID))
+		q = q.Where(goqu.C(COLUMN_ID).Eq(options.ID))
 	}
 
 	if options.Status != "" {
-		q = q.Where(goqu.C("status").Eq(options.Status))
+		q = q.Where(goqu.C(COLUMN_STATUS).Eq(options.Status))
 	}
 
 	if len(options.StatusIn) > 0 {
-		q = q.Where(goqu.C("status").In(options.StatusIn))
+		q = q.Where(goqu.C(COLUMN_STATUS).In(options.StatusIn))
 	}
 
 	if options.CountryCode != "" {
-		q = q.Where(goqu.C("country_code").Eq(options.CountryCode))
+		q = q.Where(goqu.C(COLUMN_COUNTRY_CODE).Eq(options.CountryCode))
 	}
 
 	if options.Timezone != "" {
-		q = q.Where(goqu.C("timezone").Eq(options.Timezone))
+		q = q.Where(goqu.C(COLUMN_TIMEZONE).Eq(options.Timezone))
 	}
 
 	if !options.CountOnly {
@@ -431,7 +431,7 @@ func (store *Store) timezoneQuery(options TimezoneQueryOptions) *goqu.SelectData
 	}
 
 	if !options.WithDeleted {
-		q = q.Where(goqu.C("deleted_at").Eq(sb.NULL_DATETIME))
+		q = q.Where(goqu.C(COLUMN_DELETED_AT).Eq(sb.NULL_DATETIME))
 	}
 
 	return q
