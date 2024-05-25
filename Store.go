@@ -214,6 +214,20 @@ func (store *Store) CountryFindByIso2(iso2Code string) (*Country, error) {
 	return nil, nil
 }
 
+func (store *Store) CountryNameFindByIso2(iso2Code string) (string, error) {
+	country, err := store.CountryFindByIso2(iso2Code)
+
+	if err != nil {
+		return "", err
+	}
+
+	if country == nil {
+		return "", nil
+	}
+
+	return country.Name(), nil
+}
+
 func (store *Store) CountryList(options CountryQueryOptions) ([]Country, error) {
 	q := store.countryQuery(options)
 
