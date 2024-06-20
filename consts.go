@@ -2,6 +2,7 @@ package geostore
 
 const COLUMN_CONTINENT = "continent"
 const COLUMN_COUNTRY_CODE = "country_code"
+const COLUMN_STATE_CODE = "state_code"
 const COLUMN_CREATED_AT = "created_at"
 const COLUMN_DELETED_AT = "deleted_at"
 const COLUMN_GLOBAL_NAME = "global_name"
@@ -18,6 +19,9 @@ const COLUMN_ZONE_NAME = "zone_name"
 
 const COUNTRY_STATUS_ACTIVE = "active"
 const COUNTRY_STATUS_INACTIVE = "inactive"
+
+const STATE_STATUS_ACTIVE = "active"
+const STATE_STATUS_INACTIVE = "inactive"
 
 const TIMEZONE_STATUS_ACTIVE = "active"
 const TIMEZONE_STATUS_INACTIVE = "inactive"

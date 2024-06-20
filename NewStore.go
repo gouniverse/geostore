@@ -11,6 +11,7 @@ type NewStoreOptions struct {
 	DB                 *sql.DB
 	DbDriverName       string
 	CountryTableName   string
+	StateTableName     string
 	TimezoneTableName  string
 	AutomigrateEnabled bool
 }
@@ -18,6 +19,10 @@ type NewStoreOptions struct {
 func NewStore(options NewStoreOptions) (*Store, error) {
 	if options.CountryTableName == "" {
 		return nil, errors.New("geo store: CountryTableName is required")
+	}
+
+	if options.CountryTableName == "" {
+		return nil, errors.New("geo store: StateTableName is required")
 	}
 
 	if options.TimezoneTableName == "" {
@@ -36,6 +41,7 @@ func NewStore(options NewStoreOptions) (*Store, error) {
 		db:                 options.DB,
 		dbDriverName:       options.DbDriverName,
 		countryTableName:   options.CountryTableName,
+		stateTableName:     options.StateTableName,
 		timezoneTableName:  options.TimezoneTableName,
 		automigrateEnabled: options.AutomigrateEnabled,
 	}

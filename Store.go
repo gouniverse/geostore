@@ -18,6 +18,7 @@ var _ StoreInterface = (*Store)(nil) // verify it extends the interface
 
 type Store struct {
 	countryTableName   string
+	stateTableName     string
 	timezoneTableName  string
 	db                 *sql.DB
 	dbDriverName       string
@@ -35,6 +36,19 @@ func (store *Store) AutoMigrate() error {
 	}
 
 	_, err := store.db.Exec(sql)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	// create state table
+	sql = store.sqlStateTableCreate()
+
+	if sql == "" {
+		return errors.New("state table create sql is empty")
+	}
+
+	_, err = store.db.Exec(sql)
 	if err != nil {
 		log.Println(err)
 		return err
@@ -61,6 +75,14 @@ func (store *Store) AutoMigrate() error {
 		return err
 	}
 
+	// seed state table
+	err = store.seedStatesIfTableEmpty()
+
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
 	// seed timezone table
 	err = store.seedTimezonesIfTableEmpty()
 
@@ -75,37 +97,6 @@ func (store *Store) AutoMigrate() error {
 // EnableDebug - enables the debug option
 func (st *Store) EnableDebug(debug bool) {
 	st.debugEnabled = debug
-}
-
-func (store *Store) TimezoneCreate(timezone *Timezone) error {
-	timezone.SetCreatedAt(carbon.Now(carbon.UTC).ToDateTimeString(carbon.UTC))
-	timezone.SetUpdatedAt(carbon.Now(carbon.UTC).ToDateTimeString(carbon.UTC))
-
-	data := timezone.Data()
-
-	sqlStr, params, errSql := goqu.Dialect(store.dbDriverName).
-		Insert(store.timezoneTableName).
-		Prepared(true).
-		Rows(data).
-		ToSQL()
-
-	if errSql != nil {
-		return errSql
-	}
-
-	if store.debugEnabled {
-		log.Println(sqlStr)
-	}
-
-	_, err := store.db.Exec(sqlStr, params...)
-
-	if err != nil {
-		return err
-	}
-
-	timezone.MarkAsNotDirty()
-
-	return nil
 }
 
 func (store *Store) CountryCreate(country *Country) error {
@@ -367,6 +358,146 @@ func (store *Store) countryQuery(options CountryQueryOptions) *goqu.SelectDatase
 	}
 
 	return q
+}
+
+func (store *Store) StateCreate(state *State) error {
+	state.SetCreatedAt(carbon.Now(carbon.UTC).ToDateTimeString(carbon.UTC))
+	state.SetUpdatedAt(carbon.Now(carbon.UTC).ToDateTimeString(carbon.UTC))
+
+	data := state.Data()
+
+	sqlStr, params, errSql := goqu.Dialect(store.dbDriverName).
+		Insert(store.stateTableName).
+		Prepared(true).
+		Rows(data).
+		ToSQL()
+
+	if errSql != nil {
+		return errSql
+	}
+
+	if store.debugEnabled {
+		log.Println(sqlStr)
+	}
+
+	_, err := store.db.Exec(sqlStr, params...)
+
+	if err != nil {
+		return err
+	}
+
+	state.MarkAsNotDirty()
+
+	return nil
+}
+
+func (store *Store) StateList(options StateQueryOptions) ([]State, error) {
+	q := store.stateQuery(options)
+
+	sqlStr, _, errSql := q.Select().ToSQL()
+
+	if errSql != nil {
+		return []State{}, nil
+	}
+
+	if store.debugEnabled {
+		log.Println(sqlStr)
+	}
+
+	db := sb.NewDatabase(store.db, store.dbDriverName)
+	modelMaps, err := db.SelectToMapString(sqlStr)
+	if err != nil {
+		return []State{}, err
+	}
+
+	list := []State{}
+
+	lo.ForEach(modelMaps, func(modelMap map[string]string, index int) {
+		model := NewStateFromExistingData(modelMap)
+		list = append(list, *model)
+	})
+
+	return list, nil
+}
+
+func (store *Store) stateQuery(options StateQueryOptions) *goqu.SelectDataset {
+	q := goqu.Dialect(store.dbDriverName).From(store.timezoneTableName)
+
+	if options.ID != "" {
+		q = q.Where(goqu.C(COLUMN_ID).Eq(options.ID))
+	}
+
+	if options.Status != "" {
+		q = q.Where(goqu.C(COLUMN_STATUS).Eq(options.Status))
+	}
+
+	if len(options.StatusIn) > 0 {
+		q = q.Where(goqu.C(COLUMN_STATUS).In(options.StatusIn))
+	}
+
+	if options.CountryCode != "" {
+		q = q.Where(goqu.C(COLUMN_COUNTRY_CODE).Eq(options.CountryCode))
+	}
+
+	if !options.CountOnly {
+		if options.Limit > 0 {
+			q = q.Limit(uint(options.Limit))
+		}
+
+		if options.Offset > 0 {
+			q = q.Offset(uint(options.Offset))
+		}
+	}
+
+	sortOrder := "desc"
+	if options.SortOrder != "" {
+		sortOrder = options.SortOrder
+	}
+
+	if options.OrderBy != "" {
+		if strings.EqualFold(sortOrder, sb.ASC) {
+			q = q.Order(goqu.I(options.OrderBy).Asc())
+		} else {
+			q = q.Order(goqu.I(options.OrderBy).Desc())
+		}
+	}
+
+	if !options.WithDeleted {
+		q = q.Where(goqu.C(COLUMN_DELETED_AT).Eq(sb.NULL_DATETIME))
+	}
+
+	return q
+}
+
+func (store *Store) TimezoneCreate(timezone *Timezone) error {
+	timezone.SetCreatedAt(carbon.Now(carbon.UTC).ToDateTimeString(carbon.UTC))
+	timezone.SetUpdatedAt(carbon.Now(carbon.UTC).ToDateTimeString(carbon.UTC))
+
+	data := timezone.Data()
+
+	sqlStr, params, errSql := goqu.Dialect(store.dbDriverName).
+		Insert(store.timezoneTableName).
+		Prepared(true).
+		Rows(data).
+		ToSQL()
+
+	if errSql != nil {
+		return errSql
+	}
+
+	if store.debugEnabled {
+		log.Println(sqlStr)
+	}
+
+	_, err := store.db.Exec(sqlStr, params...)
+
+	if err != nil {
+		return err
+	}
+
+	timezone.MarkAsNotDirty()
+
+	return nil
 }
 
 func (store *Store) TimezoneList(options TimezoneQueryOptions) ([]Timezone, error) {
