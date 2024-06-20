@@ -79,6 +79,11 @@ func (st *Store) sqlStateTableCreate() string {
 			Length: 2,
 		}).
 		Column(sb.Column{
+			Name:   COLUMN_STATE_CODE,
+			Type:   sb.COLUMN_TYPE_STRING,
+			Length: 3,
+		}).
+		Column(sb.Column{
 			Name:   COLUMN_NAME,
 			Type:   sb.COLUMN_TYPE_STRING,
 			Length: 255,

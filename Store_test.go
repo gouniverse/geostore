@@ -28,6 +28,7 @@ func TestStoreCountryCreate(t *testing.T) {
 	store, err := NewStore(NewStoreOptions{
 		DB:                 db,
 		CountryTableName:   "geo_country",
+		StateTableName:     "geo_state",
 		TimezoneTableName:  "geo_timezone",
 		AutomigrateEnabled: true,
 	})
@@ -57,6 +58,7 @@ func TestStoreCountryFindByID(t *testing.T) {
 	store, err := NewStore(NewStoreOptions{
 		DB:                 db,
 		CountryTableName:   "geo_country_find_by_id",
+		StateTableName:     "geo_state_find_by_id",
 		TimezoneTableName:  "geo_timezone_find_by_id",
 		AutomigrateEnabled: true,
 	})
@@ -118,6 +120,7 @@ func TestStoreCountrySoftDelete(t *testing.T) {
 	store, err := NewStore(NewStoreOptions{
 		DB:                 db,
 		CountryTableName:   "geo_country_find_by_id",
+		StateTableName:     "geo_state_find_by_id",
 		TimezoneTableName:  "geo_timezone_find_by_id",
 		AutomigrateEnabled: true,
 	})
@@ -203,7 +206,8 @@ func TestStoreStateCreate(t *testing.T) {
 
 	state := NewState().
 		SetStatus(COUNTRY_STATUS_ACTIVE).
-		SetName("Unknown")
+		SetName("Unknown").
+		SetStateCode("UN")
 
 	err = store.StateCreate(state)
 
