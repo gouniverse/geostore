@@ -10,6 +10,7 @@
 store, err := NewStore(NewStoreOptions{
   DB:                 db,
   CountryTableName:   "geo_country",
+  StateTableName:     "geo_state",
   TimezoneTableName:  "geo_timezone",
   AutomigrateEnabled: true,
 })
