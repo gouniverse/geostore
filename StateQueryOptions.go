@@ -5,6 +5,7 @@ type StateQueryOptions struct {
 	Status      string
 	StatusIn    []string
 	CountryCode string
+	StateCode   string
 	Offset      int
 	Limit       int
 	SortOrder   string

@@ -185,6 +185,36 @@ func TestStoreCountrySoftDelete(t *testing.T) {
 
 }
 
+func TestStoreStateAutomigrate(t *testing.T) {
+	db := initDB("test_state_create.db")
+
+	store, err := NewStore(NewStoreOptions{
+		DB:                 db,
+		CountryTableName:   "geo_country",
+		StateTableName:     "geo_state",
+		TimezoneTableName:  "geo_timezone",
+		AutomigrateEnabled: true,
+	})
+
+	if err != nil {
+		t.Fatal("unexpected error:", err)
+	}
+
+	if store == nil {
+		t.Fatal("unexpected nil store")
+	}
+
+	states, err := store.StateList(StateQueryOptions{})
+
+	if err != nil {
+		t.Fatal("unexpected error:", err)
+	}
+
+	if len(states) < 10 {
+		t.Fatal("there must be states in the database")
+	}
+}
+
 func TestStoreStateCreate(t *testing.T) {
 	db := initDB("test_state_create.db")
 

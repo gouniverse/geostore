@@ -421,7 +421,7 @@ func (store *Store) StateList(options StateQueryOptions) ([]State, error) {
 }
 
 func (store *Store) stateQuery(options StateQueryOptions) *goqu.SelectDataset {
-	q := goqu.Dialect(store.dbDriverName).From(store.timezoneTableName)
+	q := goqu.Dialect(store.dbDriverName).From(store.stateTableName)
 
 	if options.ID != "" {
 		q = q.Where(goqu.C(COLUMN_ID).Eq(options.ID))
@@ -437,6 +437,10 @@ func (store *Store) stateQuery(options StateQueryOptions) *goqu.SelectDataset {
 
 	if options.CountryCode != "" {
 		q = q.Where(goqu.C(COLUMN_COUNTRY_CODE).Eq(options.CountryCode))
+	}
+
+	if options.StateCode != "" {
+		q = q.Where(goqu.C(COLUMN_STATE_CODE).Eq(options.StateCode))
 	}
 
 	if !options.CountOnly {

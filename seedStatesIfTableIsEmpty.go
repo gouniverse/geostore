@@ -5119,7 +5119,7 @@ func (store *Store) seedStatesIfTableEmpty() error {
 		// id,name,country_id,country_code,country_name,state_code,type,latitude,longitude
 		name := entry[1]
 		countryCode := entry[3]
-		stateCode := entry[4]
+		stateCode := entry[5]
 
 		state := NewState()
 		state.SetCountryCode(countryCode)
