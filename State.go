@@ -17,7 +17,7 @@ type State struct {
 
 func NewState() *State {
 	state := &State{}
-	state.SetID(uid.HumanUid())
+	state.SetID(uid.UuidV4())
 	state.SetStatus(COUNTRY_STATUS_ACTIVE)
 	state.SetName("")
 	state.SetCountryCode("")
