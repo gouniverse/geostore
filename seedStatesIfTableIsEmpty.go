@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+// Source: https://github.com/dr5hn/countries-states-cities-database
+
 var statesCsvData = `
 id,name,country_id,country_code,country_name,state_code,type,latitude,longitude
 3901,Badakhshan,1,AF,Afghanistan,BDS,,36.73477250,70.81199530
