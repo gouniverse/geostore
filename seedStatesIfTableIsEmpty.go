@@ -5112,12 +5112,13 @@ func (store *Store) seedStatesIfTableEmpty() error {
 	reader := csv.NewReader(strings.NewReader(strings.TrimSpace(statesCsvData)))
 
 	// Read all the records from the CSV reader
-	states, err := reader.ReadAll()
+	stateRows, err := reader.ReadAll()
 	if err != nil {
 		return err
 	}
 
-	for _, entry := range states[1:] {
+	states := []*State{}
+	for _, entry := range stateRows[1:] {
 		// id,name,country_id,country_code,country_name,state_code,type,latitude,longitude
 		name := entry[1]
 		countryCode := entry[3]
@@ -5128,11 +5129,19 @@ func (store *Store) seedStatesIfTableEmpty() error {
 		state.SetStateCode(stateCode)
 		state.SetName(name)
 
-		err = store.StateCreate(state)
+		states = append(states, state)
 
-		if err != nil {
-			return err
-		}
+		// err = store.StateCreate(state)
+
+		// if err != nil {
+		// 	return err
+		// }
+	}
+
+	err = store.StatesCreate(states)
+
+	if err != nil {
+		return err
 	}
 
 	return nil

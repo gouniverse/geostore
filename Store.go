@@ -391,6 +391,57 @@ func (store *Store) StateCreate(state *State) error {
 	return nil
 }
 
+func (store *Store) StatesCreate(states []*State) error {
+	for index, state := range states {
+		state.SetCreatedAt(carbon.Now(carbon.UTC).ToDateTimeString(carbon.UTC))
+		state.SetUpdatedAt(carbon.Now(carbon.UTC).ToDateTimeString(carbon.UTC))
+		states[index] = state
+	}
+
+	rows := []map[string]string{}
+
+	for _, state := range states {
+		data := state.Data()
+		rows = append(rows, data)
+	}
+
+	limit := 500
+	batches := [][]map[string]string{}
+
+	for i := 0; i < len(rows); i += limit {
+		batch := rows[i:min(i+limit, len(rows))]
+		batches = append(batches, batch)
+	}
+
+	for _, batch := range batches {
+		sqlStr, params, errSql := goqu.Dialect(store.dbDriverName).
+			Insert(store.stateTableName).
+			Prepared(true).
+			Rows(batch).
+			ToSQL()
+
+		if errSql != nil {
+			return errSql
+		}
+
+		if store.debugEnabled {
+			log.Println(sqlStr)
+		}
+
+		_, err := store.db.Exec(sqlStr, params...)
+
+		if err != nil {
+			return err
+		}
+	}
+
+	for _, state := range states {
+		state.MarkAsNotDirty()
+	}
+
+	return nil
+}
+
 func (store *Store) StateList(options StateQueryOptions) ([]State, error) {
 	q := store.stateQuery(options)
 
