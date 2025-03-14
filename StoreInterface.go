@@ -1,6 +1,9 @@
 package geostore
 
 type StoreInterface interface {
+	AutoMigrate() error
+	EnableDebug(debug bool)
+
 	CountryCreate(country *Country) error
 	CountryDelete(country *Country) error
 	CountryDeleteByID(countryID string) error
