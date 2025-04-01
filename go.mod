@@ -4,11 +4,11 @@ go 1.23.3
 
 require (
 	github.com/doug-martin/goqu/v9 v9.19.0
-	github.com/dromara/carbon/v2 v2.5.4
-	github.com/gouniverse/dataobject v0.3.0
+	github.com/dromara/carbon/v2 v2.6.1
+	github.com/gouniverse/dataobject v1.2.0
 	github.com/gouniverse/sb v0.8.0
 	github.com/gouniverse/uid v1.5.0
-	github.com/mattn/go-sqlite3 v1.14.24
+	github.com/mattn/go-sqlite3 v1.14.25
 	github.com/samber/lo v1.49.1
 )
 

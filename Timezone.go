@@ -42,7 +42,7 @@ func (o *Timezone) CreatedAt() string {
 	return o.Get(COLUMN_CREATED_AT)
 }
 
-func (o *Timezone) CreatedAtCarbon() carbon.Carbon {
+func (o *Timezone) CreatedAtCarbon() *carbon.Carbon {
 	return carbon.Parse(o.CreatedAt(), carbon.UTC)
 }
 
@@ -109,7 +109,7 @@ func (o *Timezone) UpdatedAt() string {
 	return o.Get(COLUMN_UPDATED_AT)
 }
 
-func (o *Timezone) UpdatedAtCarbon() carbon.Carbon {
+func (o *Timezone) UpdatedAtCarbon() *carbon.Carbon {
 	return carbon.Parse(o.UpdatedAt(), carbon.UTC)
 }
 
